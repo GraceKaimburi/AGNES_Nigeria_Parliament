@@ -370,7 +370,7 @@
 						<div class="testimonial-description">
 							<div class="testimonial-info">
 								<div class="testimonial-img">
-									<img src="assets/images/climate/policy..jpg" alt="clients">
+									<img src="assets/images/climate/policy.jpg" alt="clients">
 								</div><!--/.testimonial-img-->
 								<div class="testimonial-person">
 									<h2>Climate Change Policy</h2>
@@ -582,11 +582,19 @@
 			</div><!--/.container-->
 
 			<div id="scroll-Top">
-				<div class="return-to-top">
-					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
-				</div>
-				
-			</div><!--/.scroll-Top-->
+                <div class="return-to-top align-left">
+                    <i class="fa fa-angle-up" id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+                </div>
+            </div><!--/.scroll-Top-->
+            
+            <style>
+                .align-left {
+                    position: fixed;
+                    bottom: 20px;
+                    left: 20px; /* Aligns the component to the left */
+                    z-index: 1000; /* Ensures visibility */
+                }
+            </style>
 			
         </footer><!--/.footer-->
 		<!--footer end-->
@@ -619,247 +627,21 @@
         <!--Custom JS-->
         <script src="assets/js/custom.js"></script>
 
-    <!-- Chatbot HTML -->
-    <button id="chatToggle" class="chat-toggle">💬</button>
-
-    <div id="chatContainer" class="chat-container">
-        <div class="chat-header">
-            <span>AGNES Climate Assistant</span>
-            <button id="closeChat">×</button>
-        </div>
-
-        <div id="chatMessages" class="chat-messages"></div>
-
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Type your message...">
-            <button id="sendMessage">Send</button>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer id="footer" class="footer">
-        <!-- ... (your existing footer content) ... -->
-    </footer>
-
-    <!-- Scroll to Top Button -->
-    <div id="scroll-Top">
-        <div class="return-to-top">
-            <i class="fa fa-angle-up" id="scroll-top" data-toggle="tooltip" data-placement="top" title="Back to Top" aria-hidden="true"></i>
-        </div>
-    </div>
-
-    <!-- Include all js compiled plugins (below), or include individual files as needed -->
-    <script src="assets/js/jquery.js"></script>
-
-    <!-- Modernizr -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-
-    <!-- Bootstrap JS -->
-    <script src="assets/js/bootstrap.min.js"></script>
-
-    <!-- Bootsnav JS -->
-    <script src="assets/js/bootsnav.js"></script>
-
-    <!-- Feather Icons -->
-    <script src="assets/js/feather.min.js"></script>
-
-    <!-- Counter JS -->
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/waypoints.min.js"></script>
-
-    <!-- Slick Slider JS -->
-    <script src="assets/js/slick.min.js"></script>
-
-    <!-- Easing JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-
-    <!-- Custom JS -->
-    <script src="assets/js/custom.js"></script>
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-
-    <script>
-        // Initialize Firebase
-        const firebaseConfig = {
-            // Your Firebase configuration
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const storage = firebase.storage();
-    </script>
-
     <!-- Chatbot Script -->
-    <script>
-        // Application Logic
-        (function() {
-            // DOM Elements
-            const chatToggle = document.getElementById('chatToggle');
-            const chatContainer = document.getElementById('chatContainer');
-            const closeChat = document.getElementById('closeChat');
-            const chatMessages = document.getElementById('chatMessages');
-            const userInput = document.getElementById('userInput');
-            const sendMessage = document.getElementById('sendMessage');
-
-            // Storage Manager (Fallback Storage)
-            const StorageManager = {
-                _storage: {},
-                
-                setItem(key, value) {
-                    try {
-                        if (window.localStorage) {
-                            localStorage.setItem(key, value);
-                            return;
-                        }
-                    } catch(e) {
-                        console.warn('Using in-memory storage');
-                    }
-                    this._storage[key] = value;
-                },
-                
-                getItem(key) {
-                    try {
-                        if (window.localStorage) {
-                            const value = localStorage.getItem(key);
-                            if (value !== null) return value;
-                        }
-                    } catch(e) {
-                        console.warn('Falling back to in-memory storage');
-                    }
-                    return this._storage[key] || null;
-                }
-            };
-
-            // Chat History Management
-            const ChatHistory = {
-                conversations: [],
-                
-                add(message, type) {
-                    const conversation = {
-                        message,
-                        type,
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    // Limit history to 50 conversations
-                    if (this.conversations.length >= 50) {
-                        this.conversations.shift();
-                    }
-                    
-                    this.conversations.push(conversation);
-                    this.save();
-                },
-
-                save() {
-                    try {
-                        StorageManager.setItem('chat_history', JSON.stringify(this.conversations));
-                    } catch (e) {
-                        console.error('Could not save chat history', e);
-                    }
-                },
-
-                load() {
-                    try {
-                        const saved = StorageManager.getItem('chat_history');
-                        this.conversations = saved ? JSON.parse(saved) : [];
-                        // Render loaded messages
-                        this.conversations.forEach(convo => {
-                            addMessage(convo.message, convo.type, false);
-                        });
-                    } catch (e) {
-                        console.error('Could not load chat history', e);
-                        this.conversations = [];
-                    }
-                }
-            };
-
-            // AI Response Generator
-            function generateResponse(query) {
-                const lowercaseQuery = query.toLowerCase();
-                
-                const responses = {
-                    climate: [
-                        "Nigeria is committed to reducing carbon emissions and developing sustainable environmental policies.",
-                        "Climate change impacts are significant in Nigeria, particularly in agricultural and coastal regions.",
-                        "The Nigerian government is investing in renewable energy solutions to combat climate change."
-                    ],
-                    meeting: [
-                        "The last parliamentary session discussed national adaptation strategies for climate resilience.",
-                        "Recent meetings have focused on green energy investment and sustainable development goals."
-                    ],
-                    project: [
-                        "Current climate projects include solar mini-grid installations in rural communities.",
-                        "We're developing comprehensive water management strategies to address climate-induced water scarcity."
-                    ],
-                    default: [
-                        "Thank you for your query. I'm processing the information and will provide a comprehensive response.",
-                        "I'm analyzing your question and will get back to you with detailed insights."
-                    ]
-                };
-
-                // Matching logic
-                if (lowercaseQuery.includes('climate')) return responses.climate[Math.floor(Math.random() * responses.climate.length)];
-                if (lowercaseQuery.includes('meeting')) return responses.meeting[Math.floor(Math.random() * responses.meeting.length)];
-                if (lowercaseQuery.includes('project')) return responses.project[Math.floor(Math.random() * responses.project.length)];
-                
-                return responses.default[Math.floor(Math.random() * responses.default.length)];
+    
+     <script>
+            window.embeddedChatbotConfig = {
+            chatbotId: "TE2yjdFfvUnSrrmyEq2yx",
+            domain: "www.chatbase.co"
             }
-
-            // Add Message to Chat
-            function addMessage(message, type, saveToHistory = true) {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message', `${type}-message`);
-                messageElement.textContent = message;
-                chatMessages.appendChild(messageElement);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-
-                // Save to history if needed
-                if (saveToHistory) {
-                    ChatHistory.add(message, type);
-                }
-            }
-
-            // Send User Message
-            function handleSendMessage() {
-                const message = userInput.value.trim();
-                if (!message) return;
-
-                // Add user message
-                addMessage(message, 'user');
-                userInput.value = '';
-
-                // Simulate typing and response
-                setTimeout(() => {
-                    const response = generateResponse(message);
-                    addMessage(response, 'bot');
-                }, 1000);
-            }
-
-            // Event Listeners
-            chatToggle.addEventListener('click', () => {
-                chatContainer.style.display = 'flex';
-                chatToggle.style.display = 'none';
-            });
-
-            closeChat.addEventListener('click', () => {
-                chatContainer.style.display = 'none';
-                chatToggle.style.display = 'block';
-            });
-
-            sendMessage.addEventListener('click', handleSendMessage);
-            userInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleSendMessage();
-            });
-
-            // Initialize
-            ChatHistory.load();
-            if (ChatHistory.conversations.length === 0) {
-                addMessage("Hello! I'm AGNES, your climate change assistant. How can I help you today?", 'bot', false);
-            }
-        })();
+            </script>
+            <script
+            src="https://www.chatbase.co/embed.min.js"
+            chatbotId="TE2yjdFfvUnSrrmyEq2yx"
+            domain="www.chatbase.co" 
+            defer>
     </script>
+                </script>
 
 </body>
 
