@@ -1,6 +1,8 @@
 // AGNESChatbot.js - AGNES Climate Chatbot with OpenAI and document sources
 // Replace with your actual OpenAI API key
-const OPENAI_API_KEY = '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';
+require('dotenv').config({ path: './.env' });
+console.log("API Key:", process.env.OPENAI_API_KEY); // Test if it loads
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // Store chat history
 let chatHistory = [];
