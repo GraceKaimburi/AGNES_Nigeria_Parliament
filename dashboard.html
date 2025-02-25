@@ -12,7 +12,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
         
         <!-- title of site -->
-        <title>Budget - CMAT - Nigeria</title>
+        <title>Dashboard - CMAT - Nigeria</title>
 
         <!-- For favicon png -->
 		<link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.jpg"/>
@@ -158,56 +158,6 @@
     </head>
 	
 	<body>
-		<!--[if lte IE 9]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-        <![endif]-->
-		
-		<!--!! NOTE header-top start -->
-		<!-- <header id="header-top" class="header-top">
-			<ul>
-				<li>
-					<div class="header-top-left">
-						<ul>
-							<li class="select-opt">
-								<select name="language" id="language">
-									<option value="default">EN</option>
-									<option value="Bangla">BN</option>
-									<option value="Arabic">AB</option>
-								</select>
-							</li>
-							<li class="select-opt">
-								<select name="currency" id="currency">
-									<option value="usd">USD</option>
-									<option value="euro">Euro</option>
-									<option value="bdt">BDT</option>
-								</select>
-							</li>
-							<li class="select-opt">
-								<a href="#"><span class="lnr lnr-magnifier"></span></a>
-							</li>
-						</ul>
-					</div>
-				</li>
-				<li class="head-responsive-right pull-right">
-					<div class="header-top-right">
-						<ul>
-							<li class="header-top-contact">
-								+1 222 777 6565
-							</li>
-							<li class="header-top-contact">
-								<a href="#">sign in</a>
-							</li>
-							<li class="header-top-contact">
-								<a href="#">register</a>
-							</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-					
-		</header> -->
-		<!--/.!!NOTE header-top-->
-		<!--header-top end -->
 
 	   <!--header section-->
        <section class="top-area">
@@ -230,15 +180,14 @@
                             <li class=" scroll"><a href="dashboard.html">Home</a></li>
                             <li><a href="policy.html">Documents</a></li>
                             <li class="scroll"><a href="Budget.html">Budget</a></li>
-                            <li class="scroll"><a href="Legislation.html">Assessment</a></li>
-                            <li class="scroll"><a href="pages/table-08/index.html">GIS</a></li>
+                            <li class="scroll"><a href="Assessment.html">Assessment</a></li>
+                            <li class="scroll"><a href="GIS/GIS.html">GIS</a></li>
                         </ul><!--/.nav -->
                     </div>
                 </div>
             </nav>
             <!-- End Navigation -->
         </div>
-        <div class="clearfix"></div>
     </section>
     <!--header end-->
 
@@ -623,189 +572,14 @@
         document.addEventListener('DOMContentLoaded', () => calendar.init());
     </script>
 </section>
-<!-- 
-<section id="budget-documents" class="budget-documents">
-    <div class="container">
-        <h2>Budget Documents by Sector</h2>
-        <p>Select the number of rows to display and view downloadable budget documents with details on climate change funding.</p>
-        <table id="budgetTable" class="display">
-            <thead>
-                <tr>
-                    <th>Sector</th>
-                    <th>Document</th>
-                    <th>Last Updated</th>
-                    <th>Download</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Energy</td>
-                    <td>Energy Sector Budget 2024</td>
-                    <td>2024-09-12</td>
-                    <td><a href="docs/11038" download>Download PDF</a></td>
-                </tr>
-                <tr>
-                    <td>Transport</td>
-                    <td>Transport Sector Budget 2024</td>
-                    <td>2024-08-25</td>
-                    <td><a href="docs/11039.pdf" download>Download PDF</a></td>
-                </tr>
-                <tr>
-                    <td>Agriculture</td>
-                    <td>Agriculture Sector Budget 2024</td>
-                    <td>2024-07-15</td>
-                    <td><a href="docs/11040.pdf" download>Download PDF</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section> -->
 
- <!-- CHATBOT START -->
-  <!-- Keep the same HTML structure -->
+<!-- CHATBOT START -->
 <div class="fab" onclick="toggleChatbot()">💬</div>
+<div class="chatbot-container" id="chatbot-container"></div>
+<script src="AGNESChatbot.js"></script>
+<!-- CHATBOT END -->
 
-<!-- Chatbot Container -->
-<div class="chatbot-container" id="chatbot-container">
-    <div class="chatbot-header">
-        <span>AGNES CLIMATE CHATBOT</span>
-        <button onclick="toggleChatbot()">✖</button>
-    </div>
-    <div class="chatbot-messages" id="chatbot-messages">
-        <!-- Initial welcome message -->
-        <div class="bot-message">Hi! My Name is AGNES. I am an AI chatbot here to help with any questions you may have about Climate Change. Please note that I am still under training and may not have all the answers now, but definitely with time, I will be more optimized</div>
-        <div class="bot-message">What can I help you with?</div>
-    </div>
-    <div class="chatbot-input">
-        <input type="text" id="chatbot-question" placeholder="Ask a question...">
-        <button onclick="askQuestion()">Send</button>
-    </div>
-</div>
 
-<script>
-    // Toggle Chatbot
-    function toggleChatbot() {
-        var chatbotContainer = document.getElementById('chatbot-container');
-        if (chatbotContainer.style.display === 'none' || chatbotContainer.style.display === '') {
-            chatbotContainer.style.display = 'flex';
-        } else {
-            chatbotContainer.style.display = 'none';
-        }
-    }
-
-    // Helper function to add message to chat
-    function addMessage(text, isUser = false) {
-        var messagesContainer = document.getElementById('chatbot-messages');
-        var messageDiv = document.createElement('div');
-        messageDiv.className = isUser ? 'user-message' : 'bot-message';
-        messageDiv.textContent = isUser ? 'You: ' + text : 'AGNES: ' + text;
-        messagesContainer.appendChild(messageDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-
-    // Show loading indicator
-    function showLoading() {
-        var messagesContainer = document.getElementById('chatbot-messages');
-        var loadingDiv = document.createElement('div');
-        loadingDiv.className = 'loading-indicator';
-        loadingDiv.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
-        messagesContainer.appendChild(loadingDiv);
-        return loadingDiv;
-    }
-
-    // Search documents in Firebase Storage
-    async function searchDocuments(query) {
-        try {
-            const storageRef = firebase.storage().ref('docs');
-            const files = await storageRef.listAll();
-            
-            for (const fileRef of files.items) {
-                try {
-                    const url = await fileRef.getDownloadURL();
-                    const response = await fetch(url);
-                    const text = await response.text();
-                    
-                    if (text.toLowerCase().includes(query.toLowerCase())) {
-                        // Find relevant section
-                        const sentences = text.split(/[.!?]+/);
-                        const relevantSentences = sentences.filter(sentence => 
-                            sentence.toLowerCase().includes(query.toLowerCase())
-                        );
-                        return relevantSentences.join('. ') + '.';
-                    }
-                } catch (error) {
-                    console.error('Error processing file:', error);
-                }
-            }
-            return null;
-        } catch (error) {
-            console.error('Error searching documents:', error);
-            return null;
-        }
-    }
-
-    // Handle basic queries
-    function getBasicResponse(input) {
-        const cleanInput = input.toLowerCase().trim();
-        
-        if (cleanInput.match(/^(hi|hello|hey|greetings).*/)) {
-            return "Hello! I'm here to help you with climate-related questions. What would you like to know about? 😊";
-        }
-        
-        if (cleanInput.includes('climate')) {
-            return "Climate change is a critical challenge we face. Would you like to learn about impacts, policies, or solutions in Nigeria?";
-        }
-        
-        if (cleanInput.includes('policy')) {
-            return "Nigeria has several climate policies including the National Climate Change Policy Response Strategy. Which aspect interests you?";
-        }
-        
-        return null;
-    }
-
-    // Ask Question
-    async function askQuestion() {
-        var input = document.getElementById('chatbot-question');
-        var question = input.value.trim();
-        if (!question) return;
-        
-        input.value = '';
-        addMessage(question, true);
-        
-        const loadingIndicator = showLoading();
-        
-        try {
-            // First check for basic responses
-            let response = getBasicResponse(question);
-            
-            if (!response) {
-                // Search documents if no basic response
-                response = await searchDocuments(question);
-            }
-            
-            // Final fallback
-            if (!response) {
-                response = "I understand you're interested in this topic. Could you please be more specific about what climate-related information you're looking for? 🌱";
-            }
-            
-            loadingIndicator.remove();
-            addMessage(response);
-            
-        } catch (error) {
-            console.error('Error:', error);
-            loadingIndicator.remove();
-            addMessage("I apologize, but I encountered an error. Please try asking your question again.");
-        }
-    }
-
-    // Handle Enter key
-    document.getElementById('chatbot-question').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            askQuestion();
-        }
-    });
-</script>
 
 <style>
     /* Add these styles to your existing chatbot CSS */
@@ -875,8 +649,8 @@
                         <li class=" scroll"><a href="dashboard.html">Home</a></li>
                         <li><a href="policy.html">Documents</a></li>
                         <li class="scroll"><a href="Budget.html">Budget</a></li>
-                        <li class="scroll"><a href="Legislation.html">Assessment</a></li>
-                        <li class="scroll"><a href="pages/table-08/index.html">GIS</a></li>
+                        <li class="scroll"><a href="Assessment.html">Assessment</a></li>
+                         <li class="scroll"><a href="GIS/GIS.html">GIS</a></li>
 					</ul><!--/.nav -->
 				</div>
            </div>
@@ -914,39 +688,31 @@
 
 <!-- Include all js compiled plugins (below), or include individual files as needed -->
 
-<script src="assets/js/jquery.js"></script>
+        <script src="assets/js/jquery.js"></script>
 
-<!--modernizr.min.js-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+        <!--modernizr.min.js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 
-<!--bootstrap.min.js-->
-<script src="assets/js/bootstrap.min.js"></script>
+        <!--bootstrap.min.js-->
+        <script src="assets/js/bootstrap.min.js"></script>
 
-<!-- bootsnav js -->
-<script src="assets/js/bootsnav.js"></script>
+        <!-- bootsnav js -->
+        <script src="assets/js/bootsnav.js"></script>
 
-<!--feather.min.js-->
-<script  src="assets/js/feather.min.js"></script>
+        <!--feather.min.js-->
+        <script  src="assets/js/feather.min.js"></script>
 
-<!-- counter js -->
-<script src="assets/js/jquery.counterup.min.js"></script>
-<script src="assets/js/waypoints.min.js"></script>
+        <!-- counter js -->
+        <script src="assets/js/jquery.counterup.min.js"></script>
+        <script src="assets/js/waypoints.min.js"></script>
 
-<!--slick.min.js-->
-<script src="assets/js/slick.min.js"></script>
+        <!--slick.min.js-->
+        <script src="assets/js/slick.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-     
-<!--Custom JS-->
-<script src="assets/js/custom.js"></script>
-
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-<script src="https://unpkg.com/compromise@13.11.0/builds/compromise.min.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+            
+        <!--Custom JS-->
+        <script src="assets/js/custom.js"></script>
 
 
 </body>

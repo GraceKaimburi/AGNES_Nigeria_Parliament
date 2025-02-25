@@ -104,8 +104,8 @@
                             <li class=" scroll"><a href="dashboard.html">Home</a></li>
                             <li><a href="policy.html">Documents</a></li>
                             <li class="scroll"><a href="Budget.html">Budget</a></li>
-                            <li class="scroll"><a href="Legislation.html">Assessment</a></li>
-                            <li class="scroll"><a href="pages/table-08/index.html">GIS</a></li>
+                            <li class="scroll"><a href="Assessment.html">Assessment</a></li>
+                             <li class="scroll"><a href="GIS/GIS.html">GIS</a></li>
                         </ul><!--/.nav -->
                     </div>
                 </div>
@@ -120,10 +120,11 @@
     <section id="home" class="dash-hero-page">
         <div class="container">
             <div class="welcome-hero-txt">
-                <h2>Resource Dpvuments Surrounding Climate Change <br> in Africa </h2>
+                <h2>Resource Documents Surrounding Climate Change <br> in Africa </h2>
                 <p>
                     This tool is designed to track and evaluate government accountability. The platform provides key insights into parliamentary decisions, budget tracking, policy progress, and legislation.
                 </p>
+            
             </div>
         </div>
     </section>
@@ -210,6 +211,67 @@
         </div>
     </section>
 
+    <!-- CHATBOT START -->
+<div class="fab" onclick="toggleChatbot()">💬</div>
+<div class="chatbot-container" id="chatbot-container"></div>
+<script src="AGNESChatbot.js"></script>
+<!-- CHATBOT END -->
+
+
+
+<style>
+    /* Add these styles to your existing chatbot CSS */
+    .bot-message, .user-message {
+        margin: 8px;
+        padding: 12px;
+        border-radius: 12px;
+        max-width: 80%;
+    }
+
+    .bot-message {
+        background-color: #f0f0f0;
+        margin-right: auto;
+        border-bottom-left-radius: 4px;
+    }
+
+    .user-message {
+        background-color: #008751;
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 4px;
+    }
+
+    .loading-indicator {
+        margin: 8px;
+    }
+
+    .typing-dots {
+        display: flex;
+        gap: 4px;
+        padding: 12px;
+        background: #f0f0f0;
+        border-radius: 12px;
+        width: fit-content;
+    }
+
+    .typing-dots span {
+        width: 8px;
+        height: 8px;
+        background: #008751;
+        border-radius: 50%;
+        animation: bounce 1s infinite;
+    }
+
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+    }
+</style>
+ <!-- CHATBOT STOP -->
+
     <!--footer section-->
     <footer id="footer" class="footer">
         <div class="container">
@@ -225,8 +287,8 @@
                             <li class=" scroll"><a href="dashboard.html">Home</a></li>
                             <li><a href="policy.html">Documents</a></li>
                             <li class="scroll"><a href="Budget.html">Budget</a></li>
-                            <li class="scroll"><a href="Legislation.html">Assessment</a></li>
-                            <li class="scroll"><a href="pages/table-08/index.html">GIS</a></li>
+                            <li class="scroll"><a href="Assessment.html">Assessment</a></li>
+                             <li class="scroll"><a href="GIS/GIS.html">GIS</a></li>
                             <!-- <li class="scroll"><a href="#contact">Login</a></li> -->
                         </ul><!--/.nav -->
                     </div>

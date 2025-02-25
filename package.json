@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "http-server ./ -p 3000 --cors",
+    "dev": "live-server --port=3000 --cors --watch=./ --entry-file=index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,5 +17,9 @@
   "type": "commonjs",
   "dependencies": {
     "http-server": "^14.1.1"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.0",
+    "nodemon": "^3.1.9"
   }
 }
