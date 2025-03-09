@@ -39,18 +39,18 @@
 
     <script>
         // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyA3WGo8_5rXGqIH91mShWxPyLD4_HHekvM",
-            authDomain: "m-and-a-tool.firebaseapp.com",
-            projectId: "m-and-a-tool",
-            storageBucket: "m-and-a-tool.appspot.com",
-            messagingSenderId: "865033014110",
-            appId: "1:865033014110:web:274ee8cd2bde8bf9b19dcf",
-            measurementId: "G-F0CCBLVEJP"
-        };
+        // var firebaseConfig = {
+        //     apiKey: "AIzaSyA3WGo8_5rXGqIH91mShWxPyLD4_HHekvM",
+        //     authDomain: "m-and-a-tool.firebaseapp.com",
+        //     projectId: "m-and-a-tool",
+        //     storageBucket: "m-and-a-tool.appspot.com",
+        //     messagingSenderId: "865033014110",
+        //     appId: "1:865033014110:web:274ee8cd2bde8bf9b19dcf",
+        //     measurementId: "G-F0CCBLVEJP"
+        // };
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        var db = firebase.firestore();
+        // firebase.initializeApp(firebaseConfig);
+        // var db = firebase.firestore();
 
         // // Fetch and display articles
         // window.onload = function() {
@@ -676,63 +676,71 @@
 		</section><!--/subscription-->	
 		<!--subscription end -->
 <!-- CHATBOT START -->
+<!-- Add this to the HTML for the chatbot button -->
 <div class="fab" onclick="toggleChatbot()">💬</div>
+
+<!-- Add the chatbot container div -->
 <div class="chatbot-container" id="chatbot-container"></div>
+
+<!-- Make sure the script tag for the chatbot is properly included -->
 <script src="AGNESChatbot.js"></script>
-<!-- CHATBOT END -->
 
+<!-- Add fallback and initialization code -->
+<script>
+  // Ensure the chatbot is initialized
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded, checking if chatbot is initialized");
+    
+    // Check if the toggleChatbot function exists
+    if (typeof toggleChatbot !== 'function') {
+      console.error("AGNES Chatbot not properly initialized!");
+      
+      // Create a very basic fallback toggle function
+      window.toggleChatbot = function() {
+        const container = document.getElementById('chatbot-container');
+        if (container) {
+          container.style.display = container.style.display === 'none' || container.style.display === '' ? 'flex' : 'none';
+        }
+      };
+    }
+  });
+</script>
 
-
+<!-- Basic styles to ensure chatbot visibility -->
 <style>
-    /* Add these styles to your existing chatbot CSS */
-    .bot-message, .user-message {
-        margin: 8px;
-        padding: 12px;
-        border-radius: 12px;
-        max-width: 80%;
-    }
-
-    .bot-message {
-        background-color: #f0f0f0;
-        margin-right: auto;
-        border-bottom-left-radius: 4px;
-    }
-
-    .user-message {
-        background-color: #008751;
-        color: white;
-        margin-left: auto;
-        border-bottom-right-radius: 4px;
-    }
-
-    .loading-indicator {
-        margin: 8px;
-    }
-
-    .typing-dots {
-        display: flex;
-        gap: 4px;
-        padding: 12px;
-        background: #f0f0f0;
-        border-radius: 12px;
-        width: fit-content;
-    }
-
-    .typing-dots span {
-        width: 8px;
-        height: 8px;
-        background: #008751;
-        border-radius: 50%;
-        animation: bounce 1s infinite;
-    }
-
-    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-4px); }
-    }
+  /* Ensure these basic styles are applied directly */
+  .chatbot-container {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    z-index: 9999;
+    overflow: hidden;
+  }
+  
+  .fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #008751;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1000;
+  }
 </style>
  <!-- CHATBOT STOP -->
 

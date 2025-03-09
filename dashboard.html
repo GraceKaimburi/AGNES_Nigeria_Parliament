@@ -180,7 +180,7 @@
                             <li class=" scroll"><a href="dashboard.html">Home</a></li>
                             <li><a href="policy.html">Documents</a></li>
                             <li class="scroll"><a href="Budget.html">Budget</a></li>
-                            <li class="scroll"><a href="Assessment.html">Assessment</a></li>
+                            <!-- <li class="scroll"><a href="Assessment.html">Assessment</a></li> -->
                             <li class="scroll"><a href="GIS/GIS.html">GIS</a></li>
                         </ul><!--/.nav -->
                     </div>
@@ -573,67 +573,344 @@
     </script>
 </section>
 
+
+   <!-- CHATBOT START -->
 <!-- CHATBOT START -->
 <div class="fab" onclick="toggleChatbot()">💬</div>
-<div class="chatbot-container" id="chatbot-container"></div>
-<script src="AGNESChatbot.js"></script>
-<!-- CHATBOT END -->
-
-
+<div class="chatbot-container" id="chatbot-container">
+  <div class="chatbot-header">
+    <button id="chatbot-back-button" onclick="switchView('chat')" style="display: none; background: transparent; border: none; color: white; cursor: pointer;">
+      ←
+    </button>
+    <span>AGNES CLIMATE CHATBOT</span>
+    <div class="chatbot-header-actions">
+      <button id="chatbot-refresh-button" onclick="scrollToBottom()" class="refresh-button">⟳</button>
+      <button onclick="toggleMenu()" class="menu-button">⋮</button>
+      <button onclick="toggleChatbot()" class="close-button">✖</button>
+    </div>
+  </div>
+  
+  <!-- Dropdown menu -->
+  <div id="chatbot-menu" class="chatbot-menu" style="display: none;">
+    <div class="menu-item" onclick="startNewChat()">
+      <span class="menu-icon">+</span>
+      <span class="menu-text">Start a new chat</span>
+    </div>
+    <div class="menu-item" onclick="switchView('history')">
+      <span class="menu-icon">⏱</span>
+      <span class="menu-text">View recent chats</span>
+    </div>
+  </div>
+  
+  <!-- Chat View -->
+  <div id="chatbot-chat-view">
+    <div class="chatbot-messages" id="chatbot-messages">
+      <!-- Welcome messages will be added here by JavaScript -->
+    </div>
+    <div class="chatbot-input">
+      <input type="text" id="chatbot-question" placeholder="Message...">
+      <button onclick="askQuestion()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <!-- History View -->
+  <div id="chatbot-history-view" style="display: none;">
+    <div id="chatbot-history-list" class="chatbot-history-list"></div>
+  </div>
+</div>
 
 <style>
-    /* Add these styles to your existing chatbot CSS */
-    .bot-message, .user-message {
-        margin: 8px;
-        padding: 12px;
-        border-radius: 12px;
-        max-width: 80%;
-    }
+  /* Modern messaging app style for the chatbot */
+  .chatbot-container {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 9999;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+  }
+  
+  .chatbot-header {
+    background: #008751;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .chatbot-header-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .chatbot-header button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Dropdown menu style */
+  .chatbot-menu {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10001;
+    width: 200px;
+    overflow: hidden;
+  }
+  
+  .menu-item {
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .menu-item:hover {
+    background: #f5f5f5;
+  }
+  
+  .menu-icon {
+    margin-right: 12px;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+  }
+  
+  /* Chat history view */
+  #chatbot-history-view {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chatbot-history-list {
+    overflow-y: auto;
+    flex: 1;
+  }
+  
+  .chatbot-history-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .chatbot-history-item:hover {
+    background: #f5f5f5;
+  }
+  
+  .history-avatar {
+    width: 40px;
+    height: 40px;
+    background: #008751;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-weight: bold;
+  }
+  
+  .history-content {
+    flex: 1;
+  }
+  
+  .history-preview {
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  
+  .history-meta {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .history-action {
+    color: #008751;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  
+  .chatbot-history-empty {
+    text-align: center;
+    padding: 30px 15px;
+    color: #666;
+  }
+  
+  #chatbot-chat-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  #chatbot-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .bot-message, .user-message {
+    max-width: 80%;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 16px;
+    word-wrap: break-word;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  
+  .bot-message {
+    background-color: #f8f8f8;
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+  }
+  
+  .user-message {
+    background-color: #008751;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+  }
+  
+  /* Typing indicator */
+  .loading-indicator {
+    align-self: flex-start;
+    margin: 8px 0;
+  }
+  
+  .typing-dots {
+    display: flex;
+    gap: 5px;
+    padding: 12px 16px;
+    background: #f8f8f8;
+    border-radius: 16px;
+    border-bottom-left-radius: 5px;
+    width: fit-content;
+  }
+  
+  .typing-dots span {
+    width: 8px;
+    height: 8px;
+    background: #008751;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1s infinite;
+  }
+  
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  
+  .chatbot-input {
+    display: flex;
+    padding: 12px 16px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .chatbot-input input {
+    flex-grow: 1;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 24px;
+    outline: none;
+    font-size: 15px;
+    background-color: #f0f0f0;
+  }
+  
+  .chatbot-input input:focus {
+    border-color: #ddd;
+  }
+  
+  .chatbot-input button {
+    background: #008751;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    margin-left: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #008751;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    font-size: 28px;
+    z-index: 9998;
+  }
+  
+  .message-sources {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+    padding-top: 4px;
+  }
+  
+  .sources-title {
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
 
-    .bot-message {
-        background-color: #f0f0f0;
-        margin-right: auto;
-        border-bottom-left-radius: 4px;
-    }
-
-    .user-message {
-        background-color: #008751;
-        color: white;
-        margin-left: auto;
-        border-bottom-right-radius: 4px;
-    }
-
-    .loading-indicator {
-        margin: 8px;
-    }
-
-    .typing-dots {
-        display: flex;
-        gap: 4px;
-        padding: 12px;
-        background: #f0f0f0;
-        border-radius: 12px;
-        width: fit-content;
-    }
-
-    .typing-dots span {
-        width: 8px;
-        height: 8px;
-        background: #008751;
-        border-radius: 50%;
-        animation: bounce 1s infinite;
-    }
-
-    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-4px); }
-    }
+  .source-item {
+    padding: 2px 0;
+  }
 </style>
- <!-- CHATBOT STOP -->
- 
+
+<script src="AGNESChatbot.js"></script>
+<!-- CHATBOT END -->
+<!-- CHATBOT END -->
+
 <!--footer start-->
 <footer id="footer"  class="footer">
     <div class="container">
@@ -649,7 +926,7 @@
                         <li class=" scroll"><a href="dashboard.html">Home</a></li>
                         <li><a href="policy.html">Documents</a></li>
                         <li class="scroll"><a href="Budget.html">Budget</a></li>
-                        <li class="scroll"><a href="Assessment.html">Assessment</a></li>
+                        <!-- <li class="scroll"><a href="Assessment.html">Assessment</a></li> -->
                          <li class="scroll"><a href="GIS/GIS.html">GIS</a></li>
 					</ul><!--/.nav -->
 				</div>

@@ -1,8 +1,6 @@
 // AGNESChatbot.js - AGNES Climate Chatbot with OpenAI and document sources
 // Replace with your actual OpenAI API key
-require('dotenv').config({ path: './.env' });
-console.log("API Key:", process.env.OPENAI_API_KEY); // Test if it loads
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_API_KEY = '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';
 
 // Store chat history
 let chatHistory = [];
@@ -156,37 +154,37 @@ function loadChat(chatId) {
     messageDiv.className = msg.type === 'user' ? 'user-message' : 'bot-message';
     
     // For bot messages, handle source citations
-    if (msg.type === 'bot' && msg.sources) {
-      // Main message text
-      messageDiv.innerHTML = `${msg.text}`;
+    // if (msg.type === 'bot' && msg.sources) {
+    //   // Main message text
+    //   messageDiv.innerHTML = `${msg.text}`;
       
-      // Add sources if present
-      if (msg.sources && msg.sources.length > 0) {
-        const sourcesDiv = document.createElement('div');
-        sourcesDiv.className = 'message-sources';
-        sourcesDiv.innerHTML = `<div class="sources-title">Sources:</div>`;
+    //   // Add sources if present
+    //   if (msg.sources && msg.sources.length > 0) {
+    //     const sourcesDiv = document.createElement('div');
+    //     sourcesDiv.className = 'message-sources';
+    //     sourcesDiv.innerHTML = `<div class="sources-title">Sources:</div>`;
         
-        msg.sources.forEach(source => {
-          const sourceItem = document.createElement('div');
-          sourceItem.className = 'source-item';
-          sourceItem.textContent = source;
-          sourcesDiv.appendChild(sourceItem);
-        });
+    //     msg.sources.forEach(source => {
+    //       const sourceItem = document.createElement('div');
+    //       sourceItem.className = 'source-item';
+    //       sourceItem.textContent = source;
+    //       sourcesDiv.appendChild(sourceItem);
+    //     });
         
-        messageDiv.appendChild(sourcesDiv);
-      }
-    } else {
-      messageDiv.textContent = msg.text;
-    }
+    //     messageDiv.appendChild(sourcesDiv);
+    //   }
+    // } else {
+    //   messageDiv.textContent = msg.text;
+    // }
     
-    messagesContainer.appendChild(messageDiv);
+    // messagesContainer.appendChild(messageDiv);
   });
   
   // Restore conversation history
   conversationHistory = chat.conversationHistory || [
     {
       role: "system",
-      content: "You are AGNES, a helpful assistant specialized in climate change and environmental topics, especially as they relate to Nigeria and African contexts. Always cite your sources after providing information. Keep your responses friendly, conversational and informative."
+      content: "You are AGNES, a helpful assistant specialized in climate change and environmental topics, especially as they relate to Nigeria and African contexts.  Keep your responses friendly, conversational and informative."
     }
   ];
   
@@ -378,20 +376,34 @@ function showLoadingIndicator() {
 }
 
 // Get document content from local folder path
-async function getDocumentContent(docName) {
-  try {
-    const response = await fetch(`docs/${docName}`);
-    if (!response.ok) {
-      console.error(`Failed to fetch document: ${docName}`);
-      return null;
-    }
-    return await response.text();
-  } catch (error) {
-    console.error(`Error fetching document ${docName}:`, error);
-    return null;
-  }
-}
-
+// async function getDocumentContent(docName) {
+//   try {
+    // Encode the document name to handle special characters and spaces
+    // const encodedDocName = encodeURIComponent(docName);
+    
+    // Try the exact filename
+    // let response = await fetch(`docs/${encodedDocName}`);
+    
+    // If not found, try some variations
+//     if (!response.ok) {
+//       // Try removing any extra text
+//       const simplifiedName = docName.replace(/\s*\([^)]*\)\s*/g, '').replace(/\s*Act\s*\d+\s*/g, '');
+//       const simplifiedEncodedName = encodeURIComponent(simplifiedName);
+      
+//       response = await fetch(`docs/${simplifiedEncodedName}`);
+//     }
+    
+//     if (!response.ok) {
+//       console.error(`Failed to fetch document: ${docName}`);
+//       return null;
+//     }
+    
+//     return await response.text();
+//   } catch (error) {
+//     console.error(`Error fetching document ${docName}:`, error);
+//     return null;
+//   }
+// }
 // Get list of available documents
 async function getAvailableDocuments() {
   // This is a hardcoded list of documents from your project
@@ -512,7 +524,7 @@ async function generateOpenAIResponse(userMessage) {
         'Authorization': `Bearer ${OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: "gpt-4o",
+        model: "gpt-4",
         messages: messages,
         temperature: 0.7,
         max_tokens: 500
@@ -548,6 +560,102 @@ async function generateOpenAIResponse(userMessage) {
     console.error("Error calling OpenAI:", error);
     throw error;
   }
+}
+// Toggle menu visibility
+function toggleMenu(show = null) {
+  const menu = document.getElementById('chatbot-menu');
+  if (menu) {
+    if (show === null) {
+      // Toggle based on current state
+      menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
+    } else {
+      // Set to specific state
+      menu.style.display = show ? 'block' : 'none';
+    }
+  }
+}
+
+// Switch between chat and history view
+function switchView(view) {
+  const chatView = document.getElementById('chatbot-chat-view');
+  const historyView = document.getElementById('chatbot-history-view');
+  
+  if (!chatView || !historyView) {
+    console.error("Chat view or history view elements not found");
+    return;
+  }
+  
+  const headerTitle = document.querySelector('.chatbot-header span');
+  const backButton = document.getElementById('chatbot-back-button');
+  const refreshButton = document.getElementById('chatbot-refresh-button');
+  
+  toggleMenu(false);
+  
+  if (view === 'history') {
+    chatView.style.display = 'none';
+    historyView.style.display = 'block';
+    if (headerTitle) headerTitle.textContent = 'Recent Chats';
+    if (backButton) backButton.style.display = 'block';
+    if (refreshButton) refreshButton.style.display = 'none';
+    displayChatHistory();
+  } else {
+    chatView.style.display = 'flex';
+    historyView.style.display = 'none';
+    if (headerTitle) headerTitle.textContent = 'AGNES CLIMATE CHATBOT';
+    if (backButton) backButton.style.display = 'none';
+    if (refreshButton) refreshButton.style.display = 'block';
+    
+    // Ensure the most recent messages are visible
+    setTimeout(scrollToBottom, 50);
+  }
+}
+
+// Display chat history
+function displayChatHistory() {
+  const historyContainer = document.getElementById('chatbot-history-list');
+  if (!historyContainer) {
+    console.error("History container not found");
+    return;
+  }
+  
+  historyContainer.innerHTML = '';
+  
+  // Sort history by date (newest first)
+  const sortedHistory = [...chatHistory].sort((a, b) => b.timestamp - a.timestamp);
+  
+  if (sortedHistory.length === 0) {
+    const emptyMessage = document.createElement('div');
+    emptyMessage.className = 'chatbot-history-empty';
+    emptyMessage.textContent = 'No previous chats found';
+    historyContainer.appendChild(emptyMessage);
+    return;
+  }
+  
+  sortedHistory.forEach(chat => {
+    const historyItem = document.createElement('div');
+    historyItem.className = 'chatbot-history-item';
+    historyItem.onclick = () => loadChat(chat.id);
+    
+    // Create chat preview
+    const preview = chat.messages.find(m => m.type === 'user')?.text || 'New conversation';
+    const date = new Date(chat.timestamp);
+    const formattedDate = date.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
+    });
+    
+    historyItem.innerHTML = `
+      <div class="history-avatar">AC</div>
+      <div class="history-content">
+        <div class="history-preview">${preview.length > 30 ? preview.substring(0, 30) + '...' : preview}</div>
+        <div class="history-meta">AGNES CLIMATE · ${formattedDate}</div>
+      </div>
+      <div class="history-action">Open</div>
+    `;
+    
+    historyContainer.appendChild(historyItem);
+  });
 }
 
 // Handle user messages
